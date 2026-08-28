@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموقع تحت الصيانة</title>
+    <!-- استيراد خط تجول الاحترافي من جوجل -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            background: rgba(30, 41, 59, 0.7);
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        /* أنيميشن الأيقونة المتحركة */
+        .icon-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+        }
+
+        .maintenance-icon {
+            font-size: 64px;
+            animation: pulse 2s infinite ease-in-out;
+            display: inline-block;
+        }
+
+        .gear {
+            position: absolute;
+            font-size: 24px;
+            bottom: 10px;
+            right: 10px;
+            animation: spin 4s linear infinite;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #38bdf8;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .progress-container {
+            background: #334155;
+            border-radius: 100px;
+            height: 8px;
+            width: 100%;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+            height: 100%;
+            width: 75%; /* نسبة اكتمال الصيانة - يمكنك تغييرها */
+            border-radius: 100px;
+            animation: progressLoad 2s ease-out forwards;
+        }
+
+        .footer {
+            font-size: 0.9rem;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 20px;
+        }
+
+        /* الحركات الأنيميشن */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(-360deg); }
+        }
+
+        @keyframes progressLoad {
+            from { width: 0%; }
+        }
+
+        /* تعديلات شاشات الهواتف */
+        @media (max-width: 480px) {
+            h1 { font-size: 1.8rem; }
+            p { font-size: 1rem; }
+            .container { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="icon-wrapper">
+            <span class="maintenance-icon">🛠️</span>
+            <span class="gear">⚙️</span>
+        </div>
+        
+        <h1>الموقع تحت الصيانة حالياً</h1>
+        <p>نعمل حالياً على تحديث الموقع وتطوير الخدمات لنمنحكم تجربة تصفح أفضل وأسرع. نعتذر عن هذا التوقف المؤقت وسنعود للعمل قريباً جداً!</p>
+        
+        <!-- شريط التقدم الافتراضي -->
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        
+        <div class="footer">
+            جميع الحقوق محفوظة &copy; 2026
+        </div>
+    </div>
+
+</body>
+</html>
