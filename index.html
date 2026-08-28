@@ -3,151 +3,1111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الموقع تحت الصيانة</title>
-    <!-- استيراد خط تجول الاحترافي من جوجل -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>الموقع تحت الصيانة - Under Maintenance</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@400;600;700;900&display=swap');
+
+        :root {
+            --primary: #00f0ff;
+            --secondary: #ff00e5;
+            --accent: #ffaa00;
+            --dark-bg: #0a0a12;
+            --card-bg: rgba(20, 20, 35, 0.85);
+            --text: #e0e0f0;
+            --glow-primary: rgba(0, 240, 255, 0.6);
+            --glow-secondary: rgba(255, 0, 229, 0.6);
+            --glow-accent: rgba(255, 170, 0, 0.6);
+        }
+
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Tajawal', sans-serif;
+            box-sizing: border-box;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Cairo', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text);
             min-height: 100vh;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        .container {
-            text-align: center;
-            max-width: 600px;
-            background: rgba(30, 41, 59, 0.7);
-            padding: 40px 30px;
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-out;
-        }
-
-        /* أنيميشن الأيقونة المتحركة */
-        .icon-wrapper {
+            overflow-x: hidden;
             position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .maintenance-icon {
-            font-size: 64px;
-            animation: pulse 2s infinite ease-in-out;
-            display: inline-block;
+        /* ===== ANIMATED BACKGROUND GRID ===== */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(50px, 50px);
+            }
+        }
+
+        /* ===== CANVAS PARTICLES ===== */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ===== FLOATING ORBS ===== */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: 0;
+            animation: orbFloat 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--primary);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: var(--secondary);
+            bottom: -80px;
+            left: -80px;
+            animation-delay: -3s;
+        }
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: var(--accent);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -5s;
+            opacity: 0.2;
+        }
+
+        @keyframes orbFloat {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(30px, -40px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 30px) scale(0.9);
+            }
+            75% {
+                transform: translate(40px, 20px) scale(1.05);
+            }
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            max-width: 900px;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        /* ===== ANIMATED GEAR ICON ===== */
+        .gear-wrapper {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            animation: gearPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes gearPulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
         }
 
         .gear {
             position: absolute;
-            font-size: 24px;
-            bottom: 10px;
-            right: 10px;
-            animation: spin 4s linear infinite;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            transform-origin: center;
+            animation: rotateGear 4s linear infinite;
         }
 
-        h1 {
-            font-size: 2.2rem;
+        .gear-1 {
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: rotateGear 4s linear infinite;
+        }
+        .gear-2 {
+            width: 65px;
+            height: 65px;
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: rotateGearReverse 3s linear infinite;
+            top: 40%;
+            left: 60%;
+        }
+
+        @keyframes rotateGear {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        @keyframes rotateGearReverse {
+            from {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+        }
+
+        .gear svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 15px var(--glow-primary)) drop-shadow(0 0 30px var(--glow-primary));
+        }
+        .gear-2 svg {
+            filter: drop-shadow(0 0 15px var(--glow-secondary)) drop-shadow(0 0 30px var(--glow-secondary));
+        }
+
+        /* ===== TITLE WITH GLITCH ===== */
+        .glitch-title {
+            font-family: 'Orbitron', 'Cairo', sans-serif;
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            position: relative;
+            color: #fff;
+            margin: 10px 0;
+            text-shadow: 0 0 20px var(--glow-primary), 0 0 40px var(--glow-primary), 0 0 80px var(--glow-primary);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+        .glitch-title::before {
+            color: #ff00e5;
+            z-index: -1;
+            animation: glitchShift1 2s infinite linear alternate-reverse;
+        }
+        .glitch-title::after {
+            color: #00f0ff;
+            z-index: -2;
+            animation: glitchShift2 3s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitchShift1 {
+            0%,
+            100% {
+                transform: translate(0, 0);
+                clip-path: inset(0 0 0 0);
+            }
+            10% {
+                transform: translate(-4px, 3px);
+                clip-path: inset(20% 0 60% 0);
+            }
+            20% {
+                transform: translate(4px, -3px);
+                clip-path: inset(50% 0 30% 0);
+            }
+            30% {
+                transform: translate(-3px, -4px);
+                clip-path: inset(10% 0 80% 0);
+            }
+            40% {
+                transform: translate(5px, 2px);
+                clip-path: inset(70% 0 10% 0);
+            }
+            50% {
+                transform: translate(0, 0);
+                clip-path: inset(0 0 0 0);
+            }
+            60% {
+                transform: translate(3px, 5px);
+                clip-path: inset(40% 0 40% 0);
+            }
+            70% {
+                transform: translate(-5px, -2px);
+                clip-path: inset(0 0 60% 0);
+            }
+            80% {
+                transform: translate(2px, 4px);
+                clip-path: inset(30% 0 50% 0);
+            }
+            90% {
+                transform: translate(-2px, -5px);
+                clip-path: inset(60% 0 20% 0);
+            }
+        }
+
+        @keyframes glitchShift2 {
+            0%,
+            100% {
+                transform: translate(0, 0);
+                clip-path: inset(0 0 0 0);
+            }
+            10% {
+                transform: translate(5px, -3px);
+                clip-path: inset(60% 0 20% 0);
+            }
+            20% {
+                transform: translate(-5px, 3px);
+                clip-path: inset(30% 0 50% 0);
+            }
+            30% {
+                transform: translate(3px, 5px);
+                clip-path: inset(10% 0 70% 0);
+            }
+            40% {
+                transform: translate(-4px, -3px);
+                clip-path: inset(80% 0 10% 0);
+            }
+            50% {
+                transform: translate(0, 0);
+                clip-path: inset(0 0 0 0);
+            }
+            60% {
+                transform: translate(-3px, -5px);
+                clip-path: inset(20% 0 70% 0);
+            }
+            70% {
+                transform: translate(5px, 2px);
+                clip-path: inset(40% 0 40% 0);
+            }
+            80% {
+                transform: translate(-2px, -4px);
+                clip-path: inset(0 0 50% 0);
+            }
+            90% {
+                transform: translate(4px, 5px);
+                clip-path: inset(50% 0 30% 0);
+            }
+        }
+
+        @keyframes titleGlow {
+            0%,
+            100% {
+                text-shadow: 0 0 20px var(--glow-primary), 0 0 40px var(--glow-primary), 0 0 80px var(--glow-primary), 0 0 120px rgba(0, 240, 255, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 30px var(--glow-primary), 0 0 60px var(--glow-primary), 0 0 100px var(--glow-primary), 0 0 150px rgba(0, 240, 255, 0.5);
+            }
+        }
+
+        /* ===== SUBTITLE ===== */
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .subtitle-ar {
+            font-size: clamp(1.1rem, 3vw, 1.7rem);
             font-weight: 700;
-            margin-bottom: 15px;
-            color: #38bdf8;
-            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 5px 0 20px;
+            animation: fadeInUp 1s ease-out 0.5s both;
         }
 
-        p {
-            font-size: 1.1rem;
-            color: #94a3b8;
+        /* ===== DESCRIPTION ===== */
+        .description {
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            color: rgba(200, 200, 220, 0.8);
+            max-width: 600px;
             line-height: 1.8;
             margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.7s both;
         }
 
-        .progress-container {
-            background: #334155;
-            border-radius: 100px;
-            height: 8px;
+        /* ===== PROGRESS BAR ===== */
+        .progress-section {
             width: 100%;
-            margin-bottom: 40px;
-            overflow: hidden;
+            max-width: 550px;
+            margin: 20px auto;
+            animation: fadeInUp 1s ease-out 0.9s both;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .progress-label span:last-child {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--glow-primary);
         }
 
         .progress-bar {
-            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-fill {
             height: 100%;
-            width: 75%; /* نسبة اكتمال الصيانة - يمكنك تغييرها */
-            border-radius: 100px;
-            animation: progressLoad 2s ease-out forwards;
+            width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            border-radius: 20px;
+            position: relative;
+            transition: width 0.5s ease;
+            animation: progressAnimation 4s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--glow-primary), 0 0 40px var(--glow-secondary);
         }
 
-        .footer {
-            font-size: 0.9rem;
-            color: #64748b;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 20px;
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        /* الحركات الأنيميشن */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+        @keyframes progressAnimation {
+            0% {
+                width: 20%;
+            }
+            30% {
+                width: 55%;
+            }
+            60% {
+                width: 75%;
+            }
+            100% {
+                width: 88%;
+            }
         }
 
-        @keyframes spin {
-            100% { transform: rotate(-360deg); }
+        /* ===== COUNTDOWN TIMER ===== */
+        .countdown-section {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 25px 0;
+            animation: fadeInUp 1s ease-out 1.1s both;
         }
 
-        @keyframes progressLoad {
-            from { width: 0%; }
+        .countdown-item {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px 20px;
+            min-width: 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(0, 240, 255, 0.05);
         }
 
-        /* تعديلات شاشات الهواتف */
+        .countdown-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 240, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .countdown-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .countdown-value {
+            font-family: 'Orbitron', 'Cairo', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 0 20px var(--glow-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .countdown-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* ===== NOTIFY FORM ===== */
+        .notify-section {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            animation: fadeInUp 1s ease-out 1.3s both;
+        }
+
+        .notify-form {
+            display: flex;
+            gap: 10px;
+            position: relative;
+        }
+
+        .notify-form input {
+            flex: 1;
+            padding: 14px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.5px;
+        }
+
+        .notify-form input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        .notify-form input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2), 0 0 40px rgba(0, 240, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .notify-btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 240, 255, 0.3), 0 5px 25px rgba(255, 0, 229, 0.3);
+            white-space: nowrap;
+        }
+
+        .notify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 240, 255, 0.5), 0 10px 40px rgba(255, 0, 229, 0.5);
+            animation: btnShake 0.5s ease;
+        }
+        .notify-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 20px rgba(0, 240, 255, 0.3);
+        }
+
+        @keyframes btnShake {
+            0%,
+            100% {
+                transform: translateY(-2px) rotate(0);
+            }
+            25% {
+                transform: translateY(-2px) rotate(-2deg);
+            }
+            75% {
+                transform: translateY(-2px) rotate(2deg);
+            }
+        }
+
+        /* ===== SOCIAL LINKS ===== */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            animation: fadeInUp 1s ease-out 1.5s both;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            backdrop-filter: blur(10px);
+            font-size: 1.1rem;
+        }
+
+        .social-link:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-5px) scale(1.15);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+            animation: socialGlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes socialGlow {
+            0%,
+            100% {
+                box-shadow: 0 10px 30px rgba(0, 240, 255, 0.3);
+            }
+            50% {
+                box-shadow: 0 10px 50px rgba(0, 240, 255, 0.6), 0 0 80px rgba(0, 240, 255, 0.2);
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== STATUS INDICATOR ===== */
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: statusBlink 1.5s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--glow-accent), 0 0 30px var(--glow-accent);
+        }
+        @keyframes statusBlink {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(0.7);
+            }
+        }
+        .status-text {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 20px 15px;
+            }
+            .gear-wrapper {
+                width: 80px;
+                height: 80px;
+            }
+            .gear {
+                width: 70px;
+                height: 70px;
+            }
+            .gear-2 {
+                width: 45px;
+                height: 45px;
+            }
+            .countdown-section {
+                gap: 8px;
+            }
+            .countdown-item {
+                padding: 10px 12px;
+                min-width: 65px;
+                border-radius: 10px;
+            }
+            .countdown-value {
+                font-size: 1.3rem;
+            }
+            .notify-form {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .notify-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+            .notify-form input {
+                padding: 12px 18px;
+                font-size: 0.9rem;
+            }
+            .social-links {
+                gap: 10px;
+            }
+            .social-link {
+                width: 38px;
+                height: 38px;
+                font-size: 0.95rem;
+            }
+            .glitch-title {
+                letter-spacing: 2px;
+            }
+        }
+
         @media (max-width: 480px) {
-            h1 { font-size: 1.8rem; }
-            p { font-size: 1rem; }
-            .container { padding: 30px 20px; }
+            .countdown-item {
+                min-width: 55px;
+                padding: 8px 10px;
+            }
+            .countdown-value {
+                font-size: 1.1rem;
+            }
+            .countdown-label {
+                font-size: 0.6rem;
+            }
+            .countdown-section {
+                gap: 5px;
+            }
+        }
+
+        /* ===== SCANLINE EFFECT ===== */
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.03) 2px,
+                    rgba(0, 0, 0, 0.03) 4px);
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        /* ===== VIGNETTE ===== */
+        .vignette {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+            z-index: 4;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
+    <!-- Background Layers -->
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <canvas id="particleCanvas"></canvas>
+    <div class="scanline"></div>
+    <div class="vignette"></div>
 
-    <div class="container">
-        <div class="icon-wrapper">
-            <span class="maintenance-icon">🛠️</span>
-            <span class="gear">⚙️</span>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Status Indicator -->
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">System Status: Maintenance Mode</span>
         </div>
-        
-        <h1>الموقع تحت الصيانة حالياً</h1>
-        <p>نعمل حالياً على تحديث الموقع وتطوير الخدمات لنمنحكم تجربة تصفح أفضل وأسرع. نعتذر عن هذا التوقف المؤقت وسنعود للعمل قريباً جداً!</p>
-        
-        <!-- شريط التقدم الافتراضي -->
-        <div class="progress-container">
-            <div class="progress-bar"></div>
+
+        <!-- Animated Gear -->
+        <div class="gear-wrapper">
+            <div class="gear gear-1">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gearGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00f0ff"/>
+                            <stop offset="100%" style="stop-color:#00a8ff"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M50 5 L55 15 L65 12 L67 22 L78 22 L75 32 L85 37 L78 44 L85 50 L78 56 L85 63 L75 68 L78 78 L67 78 L65 88 L55 85 L50 95 L45 85 L35 88 L33 78 L22 78 L25 68 L15 63 L22 56 L15 50 L22 44 L15 37 L25 32 L22 22 L33 22 L35 12 L45 15 Z" fill="url(#gearGrad1)" stroke="#00f0ff" stroke-width="1"/>
+                    <circle cx="50" cy="50" r="20" fill="#0a0a12" stroke="#00f0ff" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="8" fill="#00f0ff" opacity="0.5"/>
+                </svg>
+            </div>
+            <div class="gear gear-2">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gearGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff00e5"/>
+                            <stop offset="100%" style="stop-color:#ff0080"/>
+                        </linearGradient>
+                    </defs>
+                    <path d="M50 8 L54 16 L63 14 L66 23 L75 24 L73 33 L82 36 L77 44 L82 50 L77 56 L82 64 L73 67 L75 76 L66 77 L63 86 L54 84 L50 92 L46 84 L37 86 L34 77 L25 76 L27 67 L18 64 L23 56 L18 50 L23 44 L18 36 L27 33 L25 24 L34 23 L37 14 L46 16 Z" fill="url(#gearGrad2)" stroke="#ff00e5" stroke-width="1"/>
+                    <circle cx="50" cy="50" r="18" fill="#0a0a12" stroke="#ff00e5" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="7" fill="#ff00e5" opacity="0.4"/>
+                </svg>
+            </div>
         </div>
-        
-        <div class="footer">
-            جميع الحقوق محفوظة &copy; 2026
+
+        <!-- Main Title -->
+        <h1 class="glitch-title" data-text="UNDER MAINTENANCE">UNDER MAINTENANCE</h1>
+
+        <!-- Arabic Subtitle -->
+        <p class="subtitle">نحن نعمل بجد لتحسين تجربتك</p>
+        <p class="subtitle-ar">الموقع تحت الصيانة حالياً</p>
+
+        <!-- Description -->
+        <p class="description">
+            نقوم حالياً بإجراء تحديثات وتطويرات مهمة على الموقع.
+            نعتذر عن أي إزعاج، وسنعود قريباً بتجربة أفضل وأسرع.
+            شكراً لصبركم وتفهمكم.
+        </p>
+
+        <!-- Progress Bar -->
+        <div class="progress-section">
+            <div class="progress-label">
+                <span>تقدم الصيانة</span>
+                <span>Maintenance Progress</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <!-- Countdown Timer -->
+        <div class="countdown-section" id="countdown">
+            <div class="countdown-item">
+                <span class="countdown-value" id="days">00</span>
+                <span class="countdown-label">أيام</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="hours">00</span>
+                <span class="countdown-label">ساعات</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="minutes">00</span>
+                <span class="countdown-label">دقائق</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-value" id="seconds">00</span>
+                <span class="countdown-label">ثواني</span>
+            </div>
+        </div>
+
+        <!-- Notification Form -->
+        <div class="notify-section">
+            <form class="notify-form" id="notifyForm">
+                <input type="email" placeholder="أدخل بريدك الإلكتروني ليصلك إشعار عند العودة" required>
+                <button type="submit" class="notify-btn">أعلمني</button>
+            </form>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-links">
+            <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-link" aria-label="Facebook">f</a>
+            <a href="#" class="social-link" aria-label="Instagram">📷</a>
+            <a href="#" class="social-link" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-link" aria-label="YouTube">▶</a>
         </div>
     </div>
 
+    <script>
+        // ===== PARTICLE SYSTEM =====
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 80;
+        const connectionDistance = 150;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2.5 + 1;
+                this.color = this.getRandomColor();
+                this.opacity = Math.random() * 0.7 + 0.3;
+                this.pulseSpeed = Math.random() * 0.02 + 0.01;
+                this.pulseOffset = Math.random() * Math.PI * 2;
+            }
+            getRandomColor() {
+                const colors = [
+                    '0, 240, 255', // primary cyan
+                    '255, 0, 229', // magenta
+                    '255, 170, 0', // amber
+                    '255, 255, 255', // white
+                ];
+                return colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.pulseOffset += this.pulseSpeed;
+
+                // Wrap around edges
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+
+                // Slight attraction to center
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const dx = centerX - this.x;
+                const dy = centerY - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist > 50) {
+                    this.vx += (dx / dist) * 0.002;
+                    this.vy += (dy / dist) * 0.002;
+                }
+                // Limit speed
+                const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+                if (speed > 0.8) {
+                    this.vx = (this.vx / speed) * 0.8;
+                    this.vy = (this.vy / speed) * 0.8;
+                }
+            }
+            draw() {
+                const pulseAlpha = this.opacity * (0.7 + 0.3 * Math.sin(this.pulseOffset));
+                const glowRadius = this.radius * 4;
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowRadius);
+                gradient.addColorStop(0, `rgba(${this.color}, ${pulseAlpha})`);
+                gradient.addColorStop(0.5, `rgba(${this.color}, ${pulseAlpha * 0.3})`);
+                gradient.addColorStop(1, `rgba(${this.color}, 0)`);
+                ctx.beginPath();
+                ctx.fillStyle = gradient;
+                ctx.arc(this.x, this.y, glowRadius, 0, Math.PI * 2);
+                ctx.fill();
+                // Core
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(${this.color}, ${pulseAlpha})`;
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < connectionDistance) {
+                        const opacity = (1 - dist / connectionDistance) * 0.3;
+                        ctx.beginPath();
+                        ctx.strokeStyle =
+                            `rgba(${particles[i].color}, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            drawConnections();
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ===== COUNTDOWN TIMER =====
+        // Set countdown to 7 days from now
+        const countdownTarget = new Date();
+        countdownTarget.setDate(countdownTarget.getDate() + 7);
+        countdownTarget.setHours(23, 59, 59, 0);
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = countdownTarget - now;
+
+            if (diff <= 0) {
+                // Reset countdown
+                countdownTarget.setDate(now.getDate() + 7);
+                countdownTarget.setHours(23, 59, 59, 0);
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+
+            // Update progress bar based on countdown
+            const totalDuration = 7 * 24 * 60 * 60 * 1000;
+            const elapsed = totalDuration - diff;
+            const progressPercent = Math.min(88, Math.max(15, (elapsed / totalDuration) * 100));
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        // ===== NOTIFY FORM =====
+        document.getElementById('notifyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = this.querySelector('input[type="email"]');
+            const email = emailInput.value.trim();
+
+            if (email && email.includes('@')) {
+                const btn = this.querySelector('.notify-btn');
+                btn.textContent = '✓ تم التسجيل!';
+                btn.style.background = 'linear-gradient(135deg, #00ff88, #00cc66)';
+                btn.style.boxShadow = '0 10px 40px rgba(0, 255, 136, 0.5)';
+                emailInput.value = '';
+                emailInput.disabled = true;
+                emailInput.placeholder = 'شكراً لك! سيتم إشعارك عند العودة';
+
+                setTimeout(() => {
+                    btn.textContent = 'أعلمني';
+                    btn.style.background = 'linear-gradient(135deg, var(--primary), var(--secondary))';
+                    btn.style.boxShadow =
+                        '0 5px 25px rgba(0, 240, 255, 0.3), 0 5px 25px rgba(255, 0, 229, 0.3)';
+                    emailInput.disabled = false;
+                    emailInput.placeholder = 'أدخل بريدك الإلكتروني ليصلك إشعار عند العودة';
+                }, 4000);
+            } else {
+                emailInput.style.borderColor = '#ff4444';
+                emailInput.style.boxShadow = '0 0 20px rgba(255, 68, 68, 0.4)';
+                emailInput.placeholder = '! يرجى إدخال بريد إلكتروني صحيح';
+                setTimeout(() => {
+                    emailInput.style.borderColor = 'rgba(0, 240, 255, 0.3)';
+                    emailInput.style.boxShadow = 'none';
+                    emailInput.placeholder = 'أدخل بريدك الإلكتروني ليصلك إشعار عند العودة';
+                }, 3000);
+            }
+        });
+
+        // ===== SMOOTH SCROLL FOR SOCIAL LINKS =====
+        document.querySelectorAll('.social-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                this.style.transform = 'scale(1.3)';
+                this.style.transition = 'transform 0.2s ease';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.transition = '';
+                }, 200);
+            });
+        });
+    </script>
 </body>
 </html>
